@@ -1,15 +1,22 @@
 import { Box, Typography, Select, MenuItem, InputLabel } from "@mui/material";
 import { useState } from "react";
-import { ConfigSlider } from '../common/ConfigSlider';
-import { ControlPanel } from '../common/ControlPanel';
+import { ConfigSlider } from "../common/ConfigSlider";
+import { ControlPanel } from "../common/ControlPanel";
 
 interface ClusterProps {
 	onSave?: (config: ClusterConfig) => void;
 	onRun?: () => void;
 	onStop?: () => void;
+	initialNodes?: number;
 }
 
-type InstanceType = 't3.small' | 't3.medium' | 't3.large';
+type InstanceType =
+	| "t2.micro"
+	| "t2.small"
+	| "t2.medium"
+	| "t3.micro"
+	| "t3.small"
+	| "t3.medium";
 
 interface ClusterConfig {
 	nodes: number;
@@ -21,12 +28,12 @@ const containerStyles = {
 	backgroundColor: "white",
 	borderRadius: "5px",
 	p: 3,
-	border: "1px solid #EEEEEE"
+	border: "1px solid #EEEEEE",
 };
 
-function Cluster({ onSave, onRun, onStop }: ClusterProps) {
-	const [nodes, setNodes] = useState(0);
-	const [instanceType, setInstanceType] = useState<InstanceType>('t3.small');
+function Cluster({ onSave, onRun, onStop, initialNodes = 0 }: ClusterProps) {
+	const [nodes, setNodes] = useState(initialNodes);
+	const [instanceType, setInstanceType] = useState<InstanceType>("t2.micro");
 	const [isRunning, setIsRunning] = useState(false);
 
 	const handleSave = () => {
@@ -45,33 +52,37 @@ function Cluster({ onSave, onRun, onStop }: ClusterProps) {
 
 	return (
 		<Box sx={containerStyles}>
-			<Typography variant="h1" fontWeight={600} fontSize={21} sx={{ mb: 2 }} color="#4458A3">
+			<Typography
+				variant="h1"
+				fontWeight={600}
+				fontSize={21}
+				sx={{ mb: 2 }}
+				color="#4458A3"
+			>
 				Cluster Properties
 			</Typography>
-			
-            <Box sx={{ mb: 2, display: "flex", gap: 5 }}>
-			<ConfigSlider
-				label="Number of Nodes"
-				value={nodes}
-				onChange={setNodes}
-				max={24}
-				disabled={isRunning}
-			/>
-				<Box sx={{ width: "100%" } }>
-                <InputLabel id="instance-type-label">Instance Type</InputLabel>
+
+			<Box sx={{ mb: 2 }}>
+				<ConfigSlider
+					label="Number of Nodes"
+					value={nodes}
+					onChange={setNodes}
+					max={24}
+				/>
+				<InputLabel sx={{ mb: 1, fontSize: 12 }}>Instance Type</InputLabel>
 				<Select
 					fullWidth
+					size="small"
 					value={instanceType}
 					onChange={(e) => setInstanceType(e.target.value as InstanceType)}
-					labelId="instance-type-label"
-					id="instance-type-select"
-					disabled={isRunning}
 				>
+					<MenuItem value="t2.micro">t2.micro</MenuItem>
+					<MenuItem value="t2.small">t2.small</MenuItem>
+					<MenuItem value="t2.medium">t2.medium</MenuItem>
+					<MenuItem value="t3.micro">t3.micro</MenuItem>
 					<MenuItem value="t3.small">t3.small</MenuItem>
 					<MenuItem value="t3.medium">t3.medium</MenuItem>
-					<MenuItem value="t3.large">t3.large</MenuItem>
 				</Select>
-                </Box>
 			</Box>
 
 			<ControlPanel

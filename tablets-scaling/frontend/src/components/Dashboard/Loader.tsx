@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
-import { ConfigSlider } from '../common/ConfigSlider';
-import { ControlPanel } from '../common/ControlPanel';
+import { ConfigSlider } from "../common/ConfigSlider";
+import { ControlPanel } from "../common/ControlPanel";
 
 interface LoaderProps {
 	onSave?: (config: LoaderConfig) => void;
@@ -20,9 +20,9 @@ interface LoaderConfig {
 const containerStyles = {
 	width: "100%",
 	backgroundColor: "white",
-    borderRadius: "5px",
+	borderRadius: "5px",
 	p: 3,
-	border: "1px solid #EEEEEE"
+	border: "1px solid #EEEEEE",
 };
 
 function Loader({ onSave, onRun, onStop }: LoaderProps) {
@@ -33,19 +33,23 @@ function Loader({ onSave, onRun, onStop }: LoaderProps) {
 
 	return (
 		<Box sx={containerStyles}>
-			<Typography variant="h1" fontWeight={600} fontSize={21} sx={{ mb: 2 }} color="#4458A3">
+			<Typography
+				variant="h1"
+				fontWeight={600}
+				fontSize={21}
+				sx={{ mb: 2 }}
+				color="#4458A3"
+			>
 				Loader Properties
 			</Typography>
 
-			<Box sx={{ mb: 2, display: "flex", gap: 5 }}>
-            <ConfigSlider
+			<ConfigSlider
 				label="Read ops/sec"
 				value={readOps}
 				onChange={setReadOps}
 				max={10}
 				unit="M"
 				description="The amount of SELECT statements the cluster has to serve."
-                disabled={isRunning}
 			/>
 
 			<ConfigSlider
@@ -55,16 +59,13 @@ function Loader({ onSave, onRun, onStop }: LoaderProps) {
 				max={10}
 				unit="M"
 				description="The amount of INSERT/UPDATE statements the cluster has to serve."
-                disabled={isRunning}
 			/>
-            </Box>
 
 			<ConfigSlider
 				label="Number of loader instances"
 				value={instances}
 				onChange={setInstances}
 				max={24}
-                disabled={isRunning}
 			/>
 
 			<ControlPanel
