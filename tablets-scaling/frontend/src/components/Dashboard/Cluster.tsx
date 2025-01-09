@@ -2,6 +2,7 @@ import { Box, Typography, Select, MenuItem, InputLabel } from "@mui/material";
 import { useState } from "react";
 import { ConfigSlider } from "../common/ConfigSlider";
 import { ControlPanel } from "../common/ControlPanel";
+import { useControlHandlers } from "../../hooks/useControlHandlers";
 
 interface ClusterProps {
 	onSave?: (config: ClusterConfig) => void;
@@ -34,21 +35,13 @@ const containerStyles = {
 function Cluster({ onSave, onRun, onStop, initialNodes = 0 }: ClusterProps) {
 	const [nodes, setNodes] = useState(initialNodes);
 	const [instanceType, setInstanceType] = useState<InstanceType>("t2.micro");
-	const [isRunning, setIsRunning] = useState(false);
 
-	const handleSave = () => {
-		onSave?.({ nodes, instanceType });
-	};
-
-	const handleRun = () => {
-		setIsRunning(true);
-		onRun?.();
-	};
-
-	const handleStop = () => {
-		setIsRunning(false);
-		onStop?.();
-	};
+	const { isRunning, handleSave, handleRun, handleStop } = useControlHandlers({
+		onSave,
+		onRun,
+		onStop,
+		config: { nodes, instanceType },
+	});
 
 	return (
 		<Box sx={containerStyles}>

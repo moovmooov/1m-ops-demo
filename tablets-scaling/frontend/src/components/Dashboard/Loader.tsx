@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { ConfigSlider } from "../common/ConfigSlider";
 import { ControlPanel } from "../common/ControlPanel";
+import { useControlHandlers } from "../../hooks/useControlHandlers";
 
 interface LoaderProps {
 	onSave?: (config: LoaderConfig) => void;
@@ -29,7 +30,13 @@ function Loader({ onSave, onRun, onStop }: LoaderProps) {
 	const [readOps, setReadOps] = useState(0);
 	const [writeOps, setWriteOps] = useState(0);
 	const [instances, setInstances] = useState(0);
-	const [isRunning, setIsRunning] = useState(false);
+
+	const { isRunning, handleSave, handleRun, handleStop } = useControlHandlers({
+		onSave,
+		onRun,
+		onStop,
+		config: { readOps, writeOps, instances },
+	});
 
 	return (
 		<Box sx={containerStyles}>
@@ -69,15 +76,9 @@ function Loader({ onSave, onRun, onStop }: LoaderProps) {
 			/>
 
 			<ControlPanel
-				onRun={() => {
-					setIsRunning(true);
-					onRun?.();
-				}}
-				onStop={() => {
-					setIsRunning(false);
-					onStop?.();
-				}}
-				onSave={() => onSave?.({ readOps, writeOps, instances })}
+				onRun={handleRun}
+				onStop={handleStop}
+				onSave={handleSave}
 				isRunning={isRunning}
 			/>
 		</Box>
