@@ -31,25 +31,23 @@ export function ScenarioCard({
 			sx={{
 				display: "flex",
 				justifyContent: "space-between",
-					alignItems: "flex-start",
-					p: 3,
-					bgcolor: "background.paper",
-					borderRadius: 2,
-					border: "1px solid #C6D5E1",
-					borderColor: "divider",
-					cursor: "pointer",
-					transition: "all 0.2s ease-in-out",
-					"&:hover": {
-						bgcolor: "rgba(0, 0, 0, 0.04)",
-						transform: "translateY(-1px)",
-						boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-					},
+				alignItems: "flex-start",
+				p: 3,
+				bgcolor: "background.paper",
+				borderRadius: 2,
+				border: "1px solid #C6D5E1",
+				borderColor: "divider",
+				cursor: "pointer",
+				transition: "all 0.2s ease-in-out",
+				"&:hover": {
+					bgcolor: "rgba(0, 0, 0, 0.04)",
+					transform: "translateY(-1px)",
+					boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+				},
 			}}
 		>
 			<Box sx={{ display: "flex", gap: 3, alignItems: "flex-start", flex: 1 }}>
-				<Box sx={{ color: "primary.main", fontSize: "1.5rem" }}>
-					{icon}
-				</Box>
+				<Box sx={{ color: "primary.main", fontSize: "1.5rem" }}>{icon}</Box>
 				<Box sx={{ width: "100%" }}>
 					<Box
 						sx={{
@@ -60,14 +58,10 @@ export function ScenarioCard({
 							gap: 1,
 						}}
 					>
-						<Typography 
-							fontSize={18}
-							fontWeight={600}
-							color="text.primary"
-						>
+						<Typography fontSize={18} fontWeight={600} color="text.primary">
 							{title}
 						</Typography>
-						<Box sx={{ display: 'flex', gap: 1 }}>
+						<Box sx={{ display: "flex", gap: 1 }}>
 							{completed && (
 								<ScenarioButton
 									variant="outlined"
@@ -78,18 +72,18 @@ export function ScenarioCard({
 							<ScenarioButton
 								completed={completed}
 								onClick={handleClick}
-								label={completed ? 'Complete' : 'Run'}
+								label={completed ? "Complete" : "Run"}
 							/>
 						</Box>
 					</Box>
 					<Collapse in={isExpanded} timeout={300}>
-						<Typography 
-							variant="body2" 
+						<Typography
+							variant="body2"
 							color="text.secondary"
 							sx={{
 								mt: 1.5,
 								lineHeight: 1.6,
-								opacity: 0.85
+								opacity: 0.85,
 							}}
 						>
 							{description}

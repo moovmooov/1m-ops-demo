@@ -1,7 +1,6 @@
 import { Tab, styled } from "@mui/material";
 
 export const CustomTab = styled(Tab)(({ theme }) => ({
-	flexGrow: 1,
 	minHeight: 48,
 	textTransform: "none",
 	fontSize: theme.typography.pxToRem(15),

@@ -61,7 +61,7 @@ function Cluster({ onSave, onRun, onStop, initialNodes = 0 }: ClusterProps) {
 					value={nodes}
 					onChange={setNodes}
 					max={24}
-                    disabled={isRunning}
+					disabled={isRunning}
 				/>
 				<InputLabel sx={{ mb: 1, fontSize: 12 }}>Instance Type</InputLabel>
 				<Select
@@ -69,7 +69,7 @@ function Cluster({ onSave, onRun, onStop, initialNodes = 0 }: ClusterProps) {
 					size="small"
 					value={instanceType}
 					onChange={(e) => setInstanceType(e.target.value as InstanceType)}
-                    disabled={isRunning}
+					disabled={isRunning}
 				>
 					<MenuItem value="t2.micro">t2.micro</MenuItem>
 					<MenuItem value="t2.small">t2.small</MenuItem>

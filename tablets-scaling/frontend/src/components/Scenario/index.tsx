@@ -1,10 +1,10 @@
 import { ScenarioCard } from "./ScenarioCard";
-import { 
-	RocketLaunch, 
-	Storage, 
-	Speed, 
-	AddCircle, 
-	RemoveCircle 
+import {
+	RocketLaunch,
+	Storage,
+	Speed,
+	AddCircle,
+	RemoveCircle,
 } from "@mui/icons-material";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
@@ -44,10 +44,12 @@ const SCENARIOS = [
 
 export default function Scenario() {
 	const theme = useTheme();
-	const [completedScenarios, setCompletedScenarios] = useState<Set<number>>(new Set());
+	const [completedScenarios, setCompletedScenarios] = useState<Set<number>>(
+		new Set(),
+	);
 
 	const handleRun = (index: number) => {
-		setCompletedScenarios(prev => {
+		setCompletedScenarios((prev) => {
 			const newSet = new Set(prev);
 			newSet.add(index);
 			return newSet;
@@ -55,25 +57,25 @@ export default function Scenario() {
 	};
 
 	return (
-		<Box sx={{ position: 'relative', py: 4 }}>
-			<Typography 
-				variant="h1" 
-				fontWeight={700} 
-				fontSize={24} 
-				sx={{ 
+		<Box sx={{ position: "relative", py: 4 }}>
+			<Typography
+				variant="h1"
+				fontWeight={700}
+				fontSize={24}
+				sx={{
 					mb: 4,
-					color: '#4458A3',
+					color: "#4458A3",
 				}}
 			>
 				Tablets demo
 			</Typography>
-			<Box 
-				component="ol" 
-				sx={{ 
-					listStyle: "none", 
-					p: 0, 
+			<Box
+				component="ol"
+				sx={{
+					listStyle: "none",
+					p: 0,
 					m: 0,
-					position: 'relative',
+					position: "relative",
 				}}
 			>
 				{SCENARIOS.map((scenario, index) => (
@@ -102,7 +104,7 @@ export default function Scenario() {
 								fontWeight: "700",
 								fontFamily: theme.typography.fontFamily,
 								zIndex: 1,
-								transition: 'all 0.2s ease-in-out',
+								transition: "all 0.2s ease-in-out",
 							},
 							"&::after": {
 								content: '""',
@@ -117,7 +119,7 @@ export default function Scenario() {
 							},
 							"&:hover::before": {
 								transform: "translateY(-50%) scale(1.1)",
-								boxShadow: '0 0 0 4px rgba(68, 88, 163, 0.1)',
+								boxShadow: "0 0 0 4px rgba(68, 88, 163, 0.1)",
 							},
 							ml: 5,
 							mb: 3,

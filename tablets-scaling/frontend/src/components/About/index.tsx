@@ -18,11 +18,26 @@ function About() {
 				width: "100%",
 			}}
 		>
-			<img src={scyllaCloud} alt="Scylla Cloud" style={{ maxWidth: "100%", height: "auto" }} />
-			<Typography variant="h1" fontWeight={600} fontSize={{ xs: 18, sm: 21 }} sx={{ mb: { xs: 1, sm: 2 } }} color="#4458A3">
+			<img
+				src={scyllaCloud}
+				alt="Scylla Cloud"
+				style={{ maxWidth: "100%", height: "auto" }}
+			/>
+			<Typography
+				variant="h1"
+				fontWeight={600}
+				fontSize={{ xs: 18, sm: 21 }}
+				sx={{ mb: { xs: 1, sm: 2 } }}
+				color="#4458A3"
+			>
 				1 million ops/sec <br /> ScyllaDB demos with Terraform
 			</Typography>
-			<Typography variant="body1" fontWeight={300} fontSize={{ xs: 16, sm: 20 }} sx={{ mb: { xs: 1, sm: 2 } }}>
+			<Typography
+				variant="body1"
+				fontWeight={300}
+				fontSize={{ xs: 16, sm: 20 }}
+				sx={{ mb: { xs: 1, sm: 2 } }}
+			>
 				Test and benchmark ScyllaDB under a 1 million operations per second
 				workload.
 			</Typography>

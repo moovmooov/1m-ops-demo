@@ -25,12 +25,12 @@ export function ControlPanel({
 				gap: 2,
 			}}
 		>
-			<Box 
-				sx={{ 
-					display: "flex", 
+			<Box
+				sx={{
+					display: "flex",
 					gap: 1,
 					flexDirection: { xs: "column", sm: "row" },
-					width: { xs: "100%", sm: "auto" }
+					width: { xs: "100%", sm: "auto" },
 				}}
 			>
 				<Button
@@ -40,11 +40,11 @@ export function ControlPanel({
 					onClick={onRun}
 					disabled={isRunning}
 					fullWidth={true}
-					sx={{ 
-						display: "flex", 
-						alignItems: "center", 
+					sx={{
+						display: "flex",
+						alignItems: "center",
 						gap: 1,
-						justifyContent: "center"
+						justifyContent: "center",
 					}}
 				>
 					Run
@@ -57,11 +57,11 @@ export function ControlPanel({
 					onClick={onStop}
 					disabled={!isRunning}
 					fullWidth={true}
-					sx={{ 
-						display: "flex", 
-						alignItems: "center", 
+					sx={{
+						display: "flex",
+						alignItems: "center",
 						gap: 1,
-						justifyContent: "center"
+						justifyContent: "center",
 					}}
 				>
 					Stop
@@ -75,7 +75,7 @@ export function ControlPanel({
 				onClick={onSave}
 				fullWidth={true}
 				sx={{
-					width: { xs: "100%", sm: "auto" }
+					width: { xs: "100%", sm: "auto" },
 				}}
 			>
 				Save
