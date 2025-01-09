@@ -57,6 +57,7 @@ function Loader({ onSave, onRun, onStop }: LoaderProps) {
 				max={10}
 				unit="M"
 				description="The amount of SELECT statements the cluster has to serve."
+				disabled={isRunning}
 			/>
 
 			<ConfigSlider
@@ -66,6 +67,7 @@ function Loader({ onSave, onRun, onStop }: LoaderProps) {
 				max={10}
 				unit="M"
 				description="The amount of INSERT/UPDATE statements the cluster has to serve."
+				disabled={isRunning}
 			/>
 
 			<ConfigSlider
@@ -73,6 +75,7 @@ function Loader({ onSave, onRun, onStop }: LoaderProps) {
 				value={instances}
 				onChange={setInstances}
 				max={24}
+				disabled={isRunning}
 			/>
 
 			<ControlPanel

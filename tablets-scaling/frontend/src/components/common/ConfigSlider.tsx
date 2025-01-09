@@ -43,6 +43,7 @@ export function ConfigSlider({
 					value={value}
 					onChange={(event) => onChange(Number(event.target.value))}
 					type="number"
+					disabled={disabled}
 					inputProps={{
 						min: 0,
 						max: max,
