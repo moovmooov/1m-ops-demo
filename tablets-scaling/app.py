@@ -1,25 +1,34 @@
 from flask import Flask, render_template_string
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 import os
 import subprocess
 import configparser
+from flask_cors import CORS
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+CORS(app)
+socketio = SocketIO(
+    app,
+    cors_allowed_origins="*",
+    async_mode="threading",
+    logger=True,
+    engineio_logger=True,
+)
 
 env = os.environ.copy()
 env["PYTHONUNBUFFERED"] = "1"
 env["ANSIBLE_FORCE_COLOR"] = "1"
 
+
 def read_file_to_string(file_path):
     """
     Reads the file and returns it as a string.
-    
+
     :param file_path: Path to the file
     :return: The contents of the file as a string
     """
     try:
-        with open(file_path, 'r') as file:
+        with open(file_path, "r") as file:
             content = file.read()
         return content
     except FileNotFoundError:
@@ -29,40 +38,55 @@ def read_file_to_string(file_path):
         print(f"An error occurred: {e}")
         return ""
 
+
 @app.route("/")
 def index():
     return render_template_string(read_file_to_string("index.html"))
 
+
 # Global process variable
 globals()["process"] = None
 
+
 def run_ansible_playbook(playbook_path):
     playbook_cmd = ["ansible-playbook", playbook_path]
-    process = subprocess.Popen(playbook_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, cwd=ansible_folder)
+    process = subprocess.Popen(
+        playbook_cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        cwd=ansible_folder,
+    )
     for line in process.stdout:
         socketio.emit("playbook_output", {"output": line})
         socketio.sleep(0)
     process.wait()
 
+
 @socketio.on("original_cluster")
 def handle_original_cluster():
     run_ansible_playbook(ansible_folder + "/1_original_cluster.yml")
-    
+
+
 @socketio.on("sample_data")
 def handle_sample_data():
     run_ansible_playbook(ansible_folder + "/2_restore_snapshot.yml")
+
 
 @socketio.on("start_stress")
 def handle_start_stress():
     run_ansible_playbook(ansible_folder + "/3_stress.yml")
 
+
 @socketio.on("scale_out")
 def handle_scale_out():
     run_ansible_playbook(ansible_folder + "/4_scale_out.yml")
 
+
 @socketio.on("stop_stress")
 def handle_stop_stress():
     run_ansible_playbook(ansible_folder + "/5_stop_stress.yml")
+
 
 @socketio.on("scale_in")
 def handle_scale_in():
@@ -72,7 +96,7 @@ def handle_scale_in():
 def parse_ansible_inventory(inventory_file):
     config = configparser.ConfigParser(allow_no_value=True)
     config.optionxform = str  # Preserve case sensitivity
-    
+
     # Read the inventory file
     config.read(inventory_file)
 
@@ -81,15 +105,26 @@ def parse_ansible_inventory(inventory_file):
         hosts = {}
         for item in config.items(section):
             hostname, *variables = item[0].split()
-            host_vars = dict(var.split('=') for var in variables)
+            host_vars = dict(var.split("=") for var in variables)
             hosts[hostname] = host_vars
         inventory[section] = hosts
 
     return inventory
 
+
+@socketio.on("connect")
+def handle_connect():
+    print("Client connected")
+    emit("connection_response", {"data": "Connected"})
+
+
+@socketio.on("disconnect")
+def handle_disconnect():
+    print("Client disconnected")
+
+
 if __name__ == "__main__":
     program_cwd = os.path.dirname(os.path.abspath(__file__))
     ansible_folder = os.path.join(program_cwd, "ansible")
 
-    socketio.run(app, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
-
+    socketio.run(app, host="0.0.0.0", port=5000, allow_unsafe_werkzeug=True, debug=True)

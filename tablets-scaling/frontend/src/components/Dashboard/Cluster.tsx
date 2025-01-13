@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ConfigSlider } from "../common/ConfigSlider";
 import { ControlPanel } from "../common/ControlPanel";
 import { useControlHandlers } from "../../hooks/useControlHandlers";
+import { useSocketStore } from "../../stores/useSocketStore";
 
 interface ClusterProps {
 	onSave?: (config: ClusterConfig) => void;
@@ -35,6 +36,7 @@ const containerStyles = {
 function Cluster({ onSave, onRun, onStop, initialNodes = 0 }: ClusterProps) {
 	const [nodes, setNodes] = useState(initialNodes);
 	const [instanceType, setInstanceType] = useState<InstanceType>("t2.micro");
+	const emitEvent = useSocketStore(state => state.emitEvent);
 
 	const { isRunning, handleSave, handleRun, handleStop } = useControlHandlers({
 		onSave,
@@ -81,9 +83,15 @@ function Cluster({ onSave, onRun, onStop, initialNodes = 0 }: ClusterProps) {
 			</Box>
 
 			<ControlPanel
-				onRun={handleRun}
+				onRun={() => {
+					emitEvent("run_playbook");
+					handleRun();
+				}}
 				onStop={handleStop}
-				onSave={handleSave}
+				onSave={() => {
+					emitEvent("sample_data");
+					handleSave();
+				}}
 				isRunning={isRunning}
 			/>
 		</Box>
